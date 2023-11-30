@@ -36,7 +36,7 @@ function App() {
   }
 
   function doSubmitError(msg) {
-    setData({code:data.code, number:data.number, date:data.date, error_msg: msg, prediction:data.prediction})
+    setData({code:data.code, number:data.number, date:data.date, error_msg: msg, prediction:''})
   }
 
   function validDate(date) {
