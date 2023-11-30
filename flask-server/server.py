@@ -19,7 +19,10 @@ def predict():
     carrier = request.args.get("carrier")
     date = request.args.get("date")
     pred = getPred(flight_num, date, carrier)
-    return {'prediction': int(pred)}
+    if isinstance(pred, str):
+        return{'error_msg': pred}
+    else:
+        return {'prediction': int(pred)}
 
 if __name__ == "__main__":
     app.run(debug=True, port=8088)
