@@ -4,3 +4,5 @@ flask-server/venv/
 flask-server/flights_model.pkl
 flask-server/airports.csv
 .env
+flights_model_v2.pkl
+__pycache__
