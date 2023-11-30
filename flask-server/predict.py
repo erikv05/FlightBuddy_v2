@@ -11,8 +11,8 @@ load_dotenv()
 FLIGHTS_API_KEY = os.getenv("FLIGHTS_API_KEY")
 
 session = HTMLSession()
-airports = pd.read_csv("flask-server/airports.csv", index_col='iata')
-model = pickle.load(open('flask-server/flights_model_v2.pkl', 'rb'))
+airports = pd.read_csv("airports.csv", index_col='iata')
+model = pickle.load(open('flights_model_v2.pkl', 'rb'))
 
 '''
 Example values:
@@ -81,12 +81,17 @@ def getPred(flight_num, dep_date, carrier_code):
     columns = ['Quarter', 'Month', 'DayofMonth', 'DayOfWeek', 'Operating_Airline', 'Tail_Number', 'Origin', 'OriginCityName', 'OriginState', 'Dest', 'DestCityName', 'DestState', 'CRSDepTime', 'CRSArrTime']
     data = session.get(f'https://api.oag.com/flight-instances/?DepartureDateTime={dep_date}&CarrierCode={carrier_code}&FlightNumber={flight_num}&CodeType=IATA&Content=Status&version=v2', headers={"Subscription-Key":FLIGHTS_API_KEY})
     if data.status_code != 200:
-        raise Exception("Couldn't get flight data")
-    data = data.json()['data'][0]
-    vals = [[getQuarter(dep_date), getMonth(dep_date), getDayofMonth(dep_date), getDayOfWeek(dep_date), getOpAirline(data), getTailNum(data), getOrigin(data), getOriginCity(data), getOriginState(data), getDest(data), getDestCity(data), getDestState(data), getCRSDepTime(data), getCRSArrTime(data)]]
-    pred = pd.DataFrame(data = vals, columns=columns)
-    for col in pred.columns:
-        if pred[col].dtype == object:
-            pred[col] = pred[col].astype('category')
-    pred = model.predict(pred)[0]
-    return pred
+        return f"Couldn't get flight data: status {data.status_code}, message {data}"
+    if len(data.json()['data']) == 0:
+        return "Couldn't find your flight"
+    try: 
+        data = data.json()['data'][0]
+        vals = [[getQuarter(dep_date), getMonth(dep_date), getDayofMonth(dep_date), getDayOfWeek(dep_date), getOpAirline(data), getTailNum(data), getOrigin(data), getOriginCity(data), getOriginState(data), getDest(data), getDestCity(data), getDestState(data), getCRSDepTime(data), getCRSArrTime(data)]]
+        pred = pd.DataFrame(data = vals, columns=columns)
+        for col in pred.columns:
+            if pred[col].dtype == object:
+                pred[col] = pred[col].astype('category')
+        pred = model.predict(pred)[0]
+        return pred
+    except:
+        return "Couldn't get flight info"
