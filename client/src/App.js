@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 
 function App() {
 
-  const [data, setData] = useState([{code:'', number:'', date:'', prediction: '', error_msg: ''}]);
+  const [data, setData] = useState({code:'', number:'', date:'', prediction: '', error_msg: ''});
 
   function doCodeChange(evt) {
     setData({code:evt.target.value, number:data.number, date:data.date, error_msg:data.error_msg, prediction:data.prediction});
@@ -28,7 +28,7 @@ function App() {
 
   function doSubmitJson(json) {
     if (json['prediction'] === undefined) {
-      setData({code:data.code, number:data.number, date:data.date, error_msg: json['error_msg'], prediction:data.prediction})
+      setData({code:data.code, number:data.number, date:data.date, error_msg: json['error_msg'], prediction:''})
     }
     else {
       setData({code:data.code, number:data.number, date:data.date, prediction: json['prediction'], error_msg: ''});
@@ -63,7 +63,7 @@ function App() {
 
   function doSubmitClick(evt) {
     evt.preventDefault()
-    if (data.code === undefined || data.number === undefined || data.date === undefined) {
+    if (data.code === '' || data.number === '' || data.date === '') {
       doSubmitError("Please input all values");
       return;
     } if (data.code.length !== 2) {
