@@ -1,0 +1,5 @@
+client/node_modules/
+client/README.md
+flask-server/venv/
+flask-server/flights_model.pkl
+flask-server/airports.csv
