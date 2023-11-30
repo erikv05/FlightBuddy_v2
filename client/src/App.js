@@ -38,8 +38,9 @@ function App() {
   function doSubmitError(msg) {
     if (typeof msg !== "string") {
       setData({code:data.code, number:data.number, date:data.date, error_msg: "Couldn't fetch from server", prediction:''});
-    }
-    setData({code:data.code, number:data.number, date:data.date, error_msg: msg, prediction:''});
+    } else {
+      setData({code:data.code, number:data.number, date:data.date, error_msg: msg, prediction:''});
+    }  
   }
 
   function validDate(date) {
