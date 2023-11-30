@@ -11,8 +11,8 @@ load_dotenv()
 FLIGHTS_API_KEY = os.getenv("FLIGHTS_API_KEY")
 
 session = HTMLSession()
-airports = pd.read_csv("src/airports.csv", index_col='iata')
-model = pickle.load(open('src/flights_model.pkl', 'rb'))
+airports = pd.read_csv("flask-server/airports.csv", index_col='iata')
+model = pickle.load(open('flask-server/flights_model_v2.pkl', 'rb'))
 
 '''
 Example values:
