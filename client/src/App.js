@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import "./input.css";
 
 function App() {
-  const [data, setData] = useState({
+  const [input, setInput] = useState({
     code: "",
     number: "",
     date: "",
+  });
+  const [data, setData] = useState({
     prediction: "",
     error_msg: "",
   });
@@ -21,7 +23,7 @@ function App() {
   useEffect(() => {}, [showErrorBox]);
 
   useEffect(() => {
-    if (data.prediction !== undefined) {
+    if (data.prediction !== "") {
       setPrediction({
         showBox: true,
         predictionNumber: data.prediction,
@@ -30,33 +32,48 @@ function App() {
   }, [data]);
 
   function doCodeChange(evt) {
-    setData({
+    setInput({
       code: evt.target.value,
-      number: data.number,
-      date: data.date,
-      error_msg: data.error_msg,
-      prediction: data.prediction,
+      number: input.number,
+      date: input.date,
     });
+    // setData({
+    //   // code: evt.target.value,
+    //   // number: data.number,
+    //   // date: data.date,
+    //   error_msg: data.error_msg,
+    //   prediction: data.prediction,
+    // });
   }
 
   function doFlightChange(evt) {
-    setData({
-      code: data.code,
+    setInput({
+      code: input.code,
       number: evt.target.value,
-      date: data.date,
-      error_msg: data.error_msg,
-      prediction: data.prediction,
+      date: input.date,
     });
+    // setData({
+    //   // code: data.code,
+    //   // number: evt.target.value,
+    //   // date: data.date,
+    //   error_msg: data.error_msg,
+    //   prediction: data.prediction,
+    // });
   }
 
   function doDateChange(evt) {
-    setData({
-      code: data.code,
-      number: data.number,
+    setInput({
+      code: input.code,
+      number: input.number,
       date: evt.target.value,
-      error_msg: data.error_msg,
-      prediction: data.prediction,
     });
+    // setData({
+    //   // code: data.code,
+    //   // number: data.number,
+    //   // date: evt.target.value,
+    //   error_msg: data.error_msg,
+    //   prediction: data.prediction,
+    // });
   }
 
   function doSubmitResp(res) {
@@ -73,18 +90,18 @@ function App() {
   function doSubmitJson(json) {
     if (json["error_msg"] !== undefined) {
       setData({
-        code: data.code,
-        number: data.number,
-        date: data.date,
-        error_msg: json["error_msg"],
+        // code: data.code,
+        // number: data.number,
+        // date: data.date,
         prediction: "",
+        error_msg: json["error_msg"],
       });
       setShowErrorBox(true);
     } else {
       setData({
-        code: data.code,
-        number: data.number,
-        date: data.date,
+        // code: data.code,
+        // number: data.number,
+        // date: data.date,
         prediction: json["prediction"],
         error_msg: "",
       });
@@ -95,17 +112,17 @@ function App() {
   function doSubmitError(msg) {
     if (typeof msg !== "string") {
       setData({
-        code: data.code,
-        number: data.number,
-        date: data.date,
+        // code: data.code,
+        // number: data.number,
+        // date: data.date,
         error_msg: "Couldn't fetch from server",
         prediction: "",
       });
     }
     setData({
-      code: data.code,
-      number: data.number,
-      date: data.date,
+      // code: data.code,
+      // number: data.number,
+      // date: data.date,
       error_msg: msg,
       prediction: "",
     });
@@ -134,28 +151,28 @@ function App() {
 
   function doSubmitClick(evt) {
     evt.preventDefault();
-    if (data.code === "" || data.number === "" || data.date === "") {
+    if (input.code === "" || input.number === "" || input.date === "") {
       doSubmitError("Please input all values");
       setShowErrorBox(true);
       return;
     }
-    if (data.code.length !== 2) {
+    if (input.code.length !== 2) {
       doSubmitError("Invalid carrier code");
       setShowErrorBox(true);
       return;
     }
-    if (data.number.length > 4 || data.number.length < 1) {
+    if (input.number.length > 4 || input.number.length < 1) {
       doSubmitError("Invalid flight number");
       setShowErrorBox(true);
       return;
     }
-    if (!validDate(data.date)) {
+    if (!validDate(input.date)) {
       doSubmitError("Please enter a valid date");
       setShowErrorBox(true);
       return;
     }
     fetch(
-      `http://localhost:8088/predict?number=${data.number}&carrier=${data.code}&date=${data.date}`
+      `http://localhost:8088/predict?number=${input.number}&carrier=${input.code}&date=${input.date}`
     )
       .then(doSubmitResp)
       .catch(doSubmitError);
@@ -224,7 +241,7 @@ function App() {
               placeholder=" "
               onChange={(evt) => doCodeChange(evt)}
               type="text"
-              value={data.code}
+              value={input.code}
             />
             <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
               IATA Carrier Code
@@ -241,7 +258,7 @@ function App() {
               placeholder=" "
               onChange={(evt) => doFlightChange(evt)}
               type="text"
-              value={data.number}
+              value={input.number}
             />
             <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
               Flight Number
@@ -256,7 +273,7 @@ function App() {
             placeholder=""
             onChange={(evt) => doDateChange(evt)}
             type="text"
-            value={data.date}
+            value={input.date}
           />
           <label className="flex w-full h-full select-none pointer-events-none absolute left-0 font-normal !overflow-visible truncate peer-placeholder-shown:text-blue-gray-500 leading-tight peer-focus:leading-tight peer-disabled:text-transparent peer-disabled:peer-placeholder-shown:text-blue-gray-500 transition-all -top-1.5 peer-placeholder-shown:text-sm text-[11px] peer-focus:text-[11px] before:content[' '] before:block before:box-border before:w-2.5 before:h-1.5 before:mt-[6.5px] before:mr-1 peer-placeholder-shown:before:border-transparent before:rounded-tl-md before:border-t peer-focus:before:border-t-2 before:border-l peer-focus:before:border-l-2 before:pointer-events-none before:transition-all peer-disabled:before:border-transparent after:content[' '] after:block after:flex-grow after:box-border after:w-2.5 after:h-1.5 after:mt-[6.5px] after:ml-1 peer-placeholder-shown:after:border-transparent after:rounded-tr-md after:border-t peer-focus:after:border-t-2 after:border-r peer-focus:after:border-r-2 after:pointer-events-none after:transition-all peer-disabled:after:border-transparent peer-placeholder-shown:leading-[3.75] text-gray-500 peer-focus:text-gray-900 before:border-blue-gray-200 peer-focus:before:!border-gray-900 after:border-blue-gray-200 peer-focus:after:!border-gray-900">
             Flight Date (yyyy-mm-dd)
@@ -301,7 +318,6 @@ function App() {
             <title>Close</title>
             <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
           </svg>
-          {/* <p className="font-semibold">Prediction: {data.prediction}</p> */}
         </div>
       ) : (
         <div></div>
