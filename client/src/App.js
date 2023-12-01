@@ -14,6 +14,11 @@ function App() {
   const [showPredictionBox, setShowPredictionBox] = useState(false);
 
   useEffect(() => {}, [showErrorBox]);
+  useEffect(() => {
+    if (data.prediction) {
+      setShowPredictionBox(true);
+    }
+  }, [data]);
 
   function doCodeChange(evt) {
     setData({
@@ -57,7 +62,7 @@ function App() {
   }
 
   function doSubmitJson(json) {
-    if (json["error_msg"] !== undefined || json["error_msg"] !== '') {
+    if (json["error_msg"] !== undefined || json["error_msg"] !== "") {
       setData({
         code: data.code,
         number: data.number,
@@ -144,7 +149,6 @@ function App() {
     )
       .then(doSubmitResp)
       .catch(doSubmitError);
-    setShowPredictionBox(true);
   }
 
   function hideError() {
