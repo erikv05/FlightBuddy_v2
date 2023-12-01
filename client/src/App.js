@@ -136,7 +136,7 @@ function App() {
       return false;
     } else if (date.substring(7, 8) !== "-") {
       return false;
-    } else if (date.substring(0, 4) > 2023) {
+    } else if (date.substring(0, 4) > 2024) {
       return false;
     } else if (date.substring(0, 4) < 0) {
       return false;
