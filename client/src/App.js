@@ -11,12 +11,21 @@ function App() {
   });
 
   const [showErrorBox, setShowErrorBox] = useState(false);
-  const [showPredictionBox, setShowPredictionBox] = useState(false);
+  // const [showPredictionBox, setShowPredictionBox] = useState(false);
+
+  const [prediction, setPrediction] = useState({
+    showBox: false,
+    data: "",
+  });
 
   useEffect(() => {}, [showErrorBox]);
+
   useEffect(() => {
     if (data.prediction) {
-      setShowPredictionBox(true);
+      setPrediction({
+        showBox: true,
+        predictionNumber: data.prediction,
+      });
     }
   }, [data]);
 
@@ -157,7 +166,28 @@ function App() {
   }
 
   function hidePrediction() {
-    setShowPredictionBox(false);
+    setPrediction({
+      showBox: false,
+      prediction: "",
+    });
+  }
+
+  function handlePredictionText(prediction) {
+    if (prediction === 0) {
+      return "No delay predicted";
+    }
+    if (prediction === 1) {
+      return "0-15 minute delay";
+    }
+    if (prediction === 2) {
+      return "15-30 minute delay";
+    }
+    if (prediction === 3) {
+      return "30-60 minute delay";
+    }
+    if (prediction === 4) {
+      return "60+ minute delay";
+    }
   }
 
   return (
@@ -256,11 +286,10 @@ function App() {
           </svg> */}
         </button>
       </form>
-      {showPredictionBox ? (
+      {prediction.showBox ? (
         <div className="absolute bg-green-300 bg-opacity-100 w-96 rounded-md h-20 flex justify-between items-center">
-          <p></p>
           <p className="font-medium text-green-600">
-            {data.prediction} minute delay
+            {handlePredictionText(prediction.predictionNumber)}
           </p>
           <svg
             onClick={hidePrediction}
