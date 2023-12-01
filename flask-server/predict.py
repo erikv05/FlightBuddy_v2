@@ -70,6 +70,12 @@ def getCRSDepTime(data):
 def getCRSArrTime(data):
     time = data['arrival']['time']['local']
     return str(math.floor(int(time[:2] + time[3:])/100))
+def convertProba(proba):
+    probs = proba[0].tolist()
+    if probs[0] > 0.34:
+        return 0
+    else:
+        return probs.index(max(probs[1:5]))
 
 def getPred(flight_num, dep_date, carrier_code):
     """
@@ -92,7 +98,8 @@ def getPred(flight_num, dep_date, carrier_code):
             for col in pred.columns:
                 if pred[col].dtype == object:
                     pred[col] = pred[col].astype('category')
-            pred = model.predict(pred)[0]
+            pred = model.predict_proba(pred)
+            pred = convertProba(pred)
             return pred
-        except:
-            return "Couldn't get flight info"
+        except Exception as error:
+            return f"Couldn't get flight info: {error}"
