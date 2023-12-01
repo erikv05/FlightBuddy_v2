@@ -57,7 +57,7 @@ function App() {
   }
 
   function doSubmitJson(json) {
-    if (json["prediction"] === undefined) {
+    if (json["error_msg"] !== undefined || json["error_msg"] !== '') {
       setData({
         code: data.code,
         number: data.number,
@@ -65,6 +65,7 @@ function App() {
         error_msg: json["error_msg"],
         prediction: "",
       });
+      setShowErrorBox(true);
     } else {
       setData({
         code: data.code,
@@ -163,7 +164,7 @@ function App() {
           className="bg-red-100  text-red-700 px-4 py-3 rounded relative w-80 mb-5"
           role="alert"
         >
-          <strong className="font-bold">Oh no!</strong>
+          <strong className="font-bold">Error:</strong>
           <span className="block sm:inline"> {data.error_msg}</span>
           <span className="absolute top-0 bottom-0 right-0 px-4 py-3">
             <svg
