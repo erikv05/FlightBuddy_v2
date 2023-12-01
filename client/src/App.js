@@ -189,6 +189,51 @@ function App() {
     });
   }
 
+  function getBoxColor() {
+    switch (this.predictionNumber) {
+      case 0:
+        return 'bg-green-300'
+      case 1:
+        return 'bg-amber-300'
+      case 2:
+        return 'bg-amber-400'
+      case 3:
+        return 'bg-yellow-300'
+      case 4:
+        return 'bg-red-300'
+    }
+  }
+
+  function getTextColor() {
+    switch (this.predictionNumber) {
+      case 0:
+        return 'text-green-600'
+      case 1:
+        return 'text-amber-600'
+      case 2:
+        return 'text-amber-700'
+      case 3:
+        return 'text-yellow-600'
+      case 4:
+        return 'text-red-600'
+    }
+  }
+
+  function getCloseColor() {
+    switch (this.predictionNumber) {
+      case 0:
+        return 'text-green-500'
+      case 1:
+        return 'text-amber-500'
+      case 2:
+        return 'text-amber-600'
+      case 3:
+        return 'text-yellow-500'
+      case 4:
+        return 'text-red-500'
+    }
+  }
+
   function handlePredictionText(prediction) {
     if (prediction === 0) {
       return "No delay predicted";
@@ -304,13 +349,13 @@ function App() {
         </button>
       </form>
       {prediction.showBox ? (
-        <div className="absolute bg-green-300 bg-opacity-100 w-96 rounded-md h-20 flex justify-between items-center">
-          <p className="font-medium text-green-600">
+        <div className={`absolute pl-5 ${getBoxColor()} bg-opacity-100 w-96 rounded-md h-20 flex justify-between items-center`}>
+          <p className={`font-medium ${getTextColor()}`}>
             {handlePredictionText(prediction.predictionNumber)}
           </p>
           <svg
             onClick={hidePrediction}
-            className="fill-current h-6 w-6 text-green-500 mx-5"
+            className={`fill-current h-6 w-6 ${getCloseColor()} mx-5`}
             role="button"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
