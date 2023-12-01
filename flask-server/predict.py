@@ -12,7 +12,7 @@ FLIGHTS_API_KEY = os.getenv("FLIGHTS_API_KEY")
 
 session = HTMLSession()
 airports = pd.read_csv("airports.csv", index_col='iata')
-model = pickle.load(open('flights_model_v2.pkl', 'rb'))
+model = pickle.load(open('flights_model_v3.pkl', 'rb'))
 
 '''
 Example values:
