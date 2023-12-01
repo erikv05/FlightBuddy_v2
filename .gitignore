@@ -6,3 +6,4 @@ flask-server/airports.csv
 __pycache__
 flights_model_v2.pkl
 .env
+client/dist/
