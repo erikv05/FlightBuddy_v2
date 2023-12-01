@@ -72,7 +72,7 @@ def getCRSArrTime(data):
     return str(math.floor(int(time[:2] + time[3:])/100))
 def convertProba(proba):
     probs = proba[0].tolist()
-    if probs[0] > 0.34:
+    if probs[0] > 0.35:
         return 0
     else:
         return probs.index(max(probs[1:5]))
