@@ -191,7 +191,7 @@ function App() {
 
   function getBoxColor() {
     switch (this.predictionNumber) {
-      case 0:
+      default:
         return 'bg-green-300'
       case 1:
         return 'bg-amber-300'
@@ -206,7 +206,7 @@ function App() {
 
   function getTextColor() {
     switch (this.predictionNumber) {
-      case 0:
+      default:
         return 'text-green-600'
       case 1:
         return 'text-amber-600'
@@ -221,7 +221,7 @@ function App() {
 
   function getCloseColor() {
     switch (this.predictionNumber) {
-      case 0:
+      default:
         return 'text-green-500'
       case 1:
         return 'text-amber-500'
