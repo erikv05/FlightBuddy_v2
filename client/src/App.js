@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {}, [showErrorBox]);
 
   useEffect(() => {
-    if (data.prediction) {
+    if (data.prediction !== undefined) {
       setPrediction({
         showBox: true,
         predictionNumber: data.prediction,
@@ -71,7 +71,7 @@ function App() {
   }
 
   function doSubmitJson(json) {
-    if (json["error_msg"] !== undefined || json["error_msg"] !== "") {
+    if (json["error_msg"] !== undefined) {
       setData({
         code: data.code,
         number: data.number,
@@ -88,6 +88,7 @@ function App() {
         prediction: json["prediction"],
         error_msg: "",
       });
+      setPrediction({});
     }
   }
 
@@ -161,7 +162,6 @@ function App() {
   }
 
   function hideError() {
-    console.log("test");
     setShowErrorBox(false);
   }
 
