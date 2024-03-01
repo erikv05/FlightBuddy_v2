@@ -251,7 +251,7 @@ function App() {
 
   return (
     <div className="flex justify-center items-center flex-col mt-20">
-      <h1 className="mb-5 font-semibold text-lg">Predict Flight Delay ✈️</h1>
+      <h1 className="mb-5 font-semibold text-lg">FlightBuddy ✈️</h1>
       {showErrorBox ? (
         <div
           className="bg-red-100  text-red-700 px-4 py-3 rounded relative w-80 mb-5"
