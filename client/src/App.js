@@ -346,7 +346,7 @@ function App() {
         </button>
       </form>
       {prediction.showBox ? (
-        <div className={`absolute pl-5 ${getBoxColor(prediction.predictionNumber)} bg-opacity-100 w-96 rounded-md h-20 flex justify-between items-center`}>
+        <div className={`absolute pl-5 ${getBoxColor(prediction.predictionNumber)} bg-opacity-100 w-96 rounded-md h-20 justify-center items-center flex-col`}>
           <p className={`font-medium ${getTextColor(prediction.predictionNumber)}`}>
             {handlePredictionText(prediction.predictionNumber)}
           </p>

@@ -6,11 +6,6 @@ from predict import getPred
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}})
 
-# Test API Route
-@app.route("/test")
-def test():
-    return {"test":'abcd'}
-
 # Predict API Route
 @app.route("/predict")
 def predict():
